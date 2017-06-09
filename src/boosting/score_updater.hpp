@@ -51,6 +51,14 @@ public:
 
   inline bool has_init_score() const { return has_init_score_; }
 
+  inline void MultiplyScore(double eta, int cur_tree_id) {
+    int64_t offset = cur_tree_id * num_data_;
+    #pragma omp parallel for schedule(static)
+    for (int64_t i = 0; i < num_data_; ++i) {
+      score_[offset + i] *= eta;
+    }
+  }
+
   inline void AddScore(double val, int cur_tree_id) {
     int64_t offset = cur_tree_id * num_data_;
     #pragma omp parallel for schedule(static)
@@ -58,6 +66,12 @@ public:
       score_[offset + i] += val;
     }
   }
+  
+  inline void PrintScore(int cur_tree_id, double val) {
+    int64_t offset = cur_tree_id * num_data_;
+    Log::Info("score=%f", score_[offset + 0] * val);
+  }
+
   /*!
   * \brief Using tree model to get prediction number, then adding to scores for all data
   *        Note: this function generally will be used on validation data too.

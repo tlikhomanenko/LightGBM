@@ -82,6 +82,8 @@ void OverallConfig::GetBoostingType(const std::unordered_map<std::string, std::s
       boosting_type = "dart";
     } else if (value == std::string("goss")) {
       boosting_type = "goss";
+    } else if (value == std::string("infiniteboost")) {
+      boosting_type = "infiniteboost";
     } else {
       Log::Fatal("Unknown boosting type %s", value.c_str());
     }
@@ -363,6 +365,7 @@ void BoostingConfig::Set(const std::unordered_map<std::string, std::string>& par
   GetDouble(params, "top_rate", &top_rate);
   GetDouble(params, "other_rate", &other_rate);
   GetBool(params, "boost_from_average", &boost_from_average);
+  GetDouble(params, "capacity", &capacity);
   CHECK(drop_rate <= 1.0 && drop_rate >= 0.0);
   CHECK(skip_drop <= 1.0 && skip_drop >= 0.0);
   GetDeviceType(params);

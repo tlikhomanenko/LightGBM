@@ -244,6 +244,7 @@ public:
   int drop_seed = 4;
   double top_rate = 0.2f;
   double other_rate = 0.1f;
+  double capacity = 50.f;
   // only used for the regression. Will boost from the average labels.
   bool boost_from_average = true;
   std::string tree_learner_type = "serial";
@@ -468,7 +469,8 @@ struct ParameterAlias {
       "feature_fraction_seed", "enable_bundle", "data_filename", "valid_data_filenames",
       "snapshot_freq", "verbosity", "sparse_threshold", "enable_load_from_binary_file",
       "max_conflict_rate", "poisson_max_delta_step", "gaussian_eta",
-      "histogram_pool_size", "output_freq", "is_provide_training_metric", "machine_list_filename"
+      "histogram_pool_size", "output_freq", "is_provide_training_metric", "machine_list_filename",
+      "capacity"
     });
     std::unordered_map<std::string, std::string> tmp_map;
     for (const auto& pair : *params) {
