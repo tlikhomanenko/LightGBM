@@ -64,14 +64,14 @@ public:
     }
     return false;
   }
-  
+
 private:
   /*!
   * \brief put necessary coefficient for trained tree_m: capacity * m / sum (1 + .. + n_iterations)
   */
   void UpdateTreeWeight() {
     double eta = 2. / (iter_ + 1);
-    double tree_contribution = std::min(eta * capacity_, 1.);
+    double tree_contribution = std::min(eta * capacity_, maximal_contribution_);
     // update current normalization
     current_normalization_ += iter_;
 
@@ -106,7 +106,7 @@ private:
       
       // set the final contribution of the tree_m: capacity * m / sum (1 + .. + n_iterations)
       models_[last_tree]->Shrinkage(1. / tree_contribution * std::min(
-        capacity_ * iter_ / normalization_, current_normalization_ / normalization_)
+        capacity_ * iter_ / normalization_, maximal_contribution_ * current_normalization_ / normalization_)
       );
     }
   }
@@ -115,6 +115,8 @@ private:
   double normalization_;
   // 1 + 2 + 3 + .. + current_iteration
   double current_normalization_;
+
+  const double maximal_contribution_ = 0.2f;
 };
 
 }  // namespace LightGBM
